@@ -21,7 +21,7 @@ class RMSNorm(nn.Module):
             init.zeros_(self.bias)
 
     def forward(self, input: Tensor) -> Tensor:
-        var = input.pow(2).mean(dim=-1, keepdim=True).clamp(min=self.eps)
+        var = input.pow(2).mean(dim=-1, keepdim=True) + self.eps
         input_norm = input * torch.rsqrt(var)
 
         rmsnorm = self.scale * input_norm
